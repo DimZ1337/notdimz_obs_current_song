@@ -1,0 +1,33 @@
+import time
+from sources import youtube
+from sources import spotify
+
+OUTPUT_FILE = "current_song.txt"
+REFRESH_INTERVAL = 2  # secondes
+
+def write_to_file(text):
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write(text)
+
+def main():
+    last_song = ""
+    while True:
+        if youtube.get_current_song() != "No Song" and spotify.get_spotify_window_title() == "No Song":
+            current_song = youtube.get_current_song()
+        elif spotify.get_spotify_window_title() != "No Song" and youtube.get_current_song() == "No Song":
+            current_song = spotify.get_spotify_window_title()
+        elif spotify.get_spotify_window_title() == "No Song" and youtube.get_current_song() == "No Song":
+            current_song = "No Song"
+        else:
+            current_song = "Erreur : Conflit de sources"
+        #current_song = spotify.get_spotify_window_title()
+
+        if current_song != last_song:
+            write_to_file(current_song)
+            print(f"[INFO] Chanson mise à jour : {current_song}")
+            last_song = current_song
+
+        time.sleep(REFRESH_INTERVAL)
+
+if __name__ == "__main__":
+    main()

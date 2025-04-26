@@ -1,0 +1,4 @@
+flask
+win32gui
+win32process
+psutil
