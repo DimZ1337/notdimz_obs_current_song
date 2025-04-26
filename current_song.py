@@ -144,6 +144,7 @@ def create_image():
 def on_quit(icon, item):
     print("[INFO] Fermeture de l'application.")
     icon.stop()
+    os.remove("current_song.txt") 
     os._exit(0)  # Force la fermeture proprement
 
 def run_tray():
