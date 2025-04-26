@@ -131,7 +131,6 @@ def get_current_song():
     except Exception as e:
         return render_template_string(HTML_TEMPLATE, song_title=None), 500
 
-
 # Fonctions Tray
 def create_image():
     """Crée une icône simple pour la tray"""
@@ -139,7 +138,7 @@ def create_image():
     height = 64
     image = Image.new('RGB', (width, height), (30, 30, 30))
     dc = ImageDraw.Draw(image)
-    dc.text((18, 18), "🎵", fill=(26, 188, 156))
+    dc.text((18, 18), "NCS", fill=(26, 188, 156))
     return image
 
 def on_quit(icon, item):
@@ -150,13 +149,15 @@ def on_quit(icon, item):
 def run_tray():
     icon = pystray.Icon(
         "current_song",
-        create_image(),
+        Image.open("assets/current_song.ico"),  # ← On charge un vrai .ico ici
         menu=pystray.Menu(
             pystray.MenuItem("Quitter", on_quit)
         )
     )
     icon.run()
 
+def start_server():
+    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
 
 # Lancement des deux parties ensemble
 if __name__ == "__main__":
@@ -164,7 +165,7 @@ if __name__ == "__main__":
     threading.Thread(target=song_updater, daemon=True).start()
 
     # Lancer le serveur Flask
-    app.run(host="0.0.0.0", port=5000)
+    threading.Thread(target=start_server, daemon=True).start()
 
     # Lancer l'icône tray en principal
     run_tray()
