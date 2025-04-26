@@ -7,6 +7,10 @@ import os
 from sources import youtube
 from sources import spotify
 
+# --- Ajouts pour le tray ---
+import pystray
+from PIL import Image, ImageDraw
+
 # Paramètres
 OUTPUT_FILE = "current_song.txt"
 REFRESH_INTERVAL = 2  # secondes
@@ -127,6 +131,33 @@ def get_current_song():
     except Exception as e:
         return render_template_string(HTML_TEMPLATE, song_title=None), 500
 
+
+# Fonctions Tray
+def create_image():
+    """Crée une icône simple pour la tray"""
+    width = 64
+    height = 64
+    image = Image.new('RGB', (width, height), (30, 30, 30))
+    dc = ImageDraw.Draw(image)
+    dc.text((18, 18), "🎵", fill=(26, 188, 156))
+    return image
+
+def on_quit(icon, item):
+    print("[INFO] Fermeture de l'application.")
+    icon.stop()
+    os._exit(0)  # Force la fermeture proprement
+
+def run_tray():
+    icon = pystray.Icon(
+        "current_song",
+        create_image(),
+        menu=pystray.Menu(
+            pystray.MenuItem("Quitter", on_quit)
+        )
+    )
+    icon.run()
+
+
 # Lancement des deux parties ensemble
 if __name__ == "__main__":
     # Lancer la récupération de chanson en parallèle
@@ -134,3 +165,6 @@ if __name__ == "__main__":
 
     # Lancer le serveur Flask
     app.run(host="0.0.0.0", port=5000)
+
+    # Lancer l'icône tray en principal
+    run_tray()
