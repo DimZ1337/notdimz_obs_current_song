@@ -1,39 +1,43 @@
 
 # 🎵 OBS Current Song Display
 
-Un petit outil Windows qui détecte automatiquement la chanson en cours sur **Spotify** ou **YouTube Music Desktop App** et l'affiche dans **OBS** via un serveur Flask !
+[![Made with Python](https://img.shields.io/badge/Made%20with-Python-3776AB.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)]()
 
-> **Fonctionne sous forme d'un exécutable `.exe` avec une icône tray et rafraîchissement automatique.**
+A lightweight Windows tool that automatically detects the currently playing song on **Spotify** or **YouTube Music Desktop App**, and displays it in **OBS** using a simple Flask server!
+
+> **Delivered as a standalone `.exe` file with a system tray icon and automatic song refresh.**
 
 ---
 
-## 🚀 Fonctionnalités
+## 🚀 Features
 
-- 🎧 Détection de la chanson en cours sur Spotify ou YouTube Music
-- 🌐 Petit serveur web Flask pour affichage dans OBS via une Source Navigateurs
-- 🖥️ Icône dans la zone de notification (tray bar)
-- 🔁 Actualisation automatique toutes les 2 secondes
-- 🎨 Interface personnalisée (CSS turquoise/rouge)
-- ❌ Possibilité de quitter proprement avec clic droit sur l'icône
+- 🎧 Detects currently playing songs from Spotify or YouTube Music
+- 🌐 Lightweight Flask web server to serve song info for OBS Browser Source
+- 🖥️ Tray icon with a right-click menu
+- 🔁 Auto-refresh every 2 seconds
+- 🎨 Customizable interface (turquoise/red CSS theme)
+- ❌ Clean exit by right-clicking the tray icon
 
 ---
 
 ## 🛠️ Installation
 
-### 1. Cloner le projet
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/tonrepo/obs-current-song.git
+git clone https://github.com/yourrepo/obs-current-song.git
 cd obs-current-song
 ```
 
-### 2. Installer les dépendances
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**Contenu de `requirements.txt` :**
+**Contents of `requirements.txt`:**
 
 ```
 flask
@@ -44,57 +48,57 @@ pywin32
 
 ---
 
-## 📦 Compilation en `.exe` (Windows)
+## 📦 Build the `.exe` (Windows)
 
-Tu peux utiliser **PyInstaller** pour packager tout en un exécutable :
+You can use **PyInstaller** to package everything into a standalone executable:
 
 ```bash
-pyinstaller --onefile --noconsole --add-data "assets/music_icon.ico;assets" main.py
+pyinstaller --onefile --noconsole --add-data "assets/music_icon.ico;assets" current_song.py
 ```
 
-Explication des options :
-- `--onefile` : Un seul `.exe`
-- `--noconsole` : Pas de fenêtre noire en arrière-plan
-- `--add-data` : Ajoute l'icône `.ico`
+Explanation of options:
+- `--onefile`: Create a single `.exe` file
+- `--noconsole`: No background console window
+- `--add-data`: Include the `assets` folder and the icon
 
-Le `.exe` sera dans le dossier `dist/`.
-
----
-
-## 🎥 Utilisation avec OBS
-
-1. **Ajouter une Source Navigateurs** dans OBS
-2. URL : `http://127.0.0.1:5000/current-song`
-3. Largeur : `300` — Hauteur : `80`
-4. Cocher : "Actualiser la page si la source devient active" (optionnel)
-5. Profitez de votre affichage musical stylé 🎶
+The final `.exe` will be in the `dist/` directory.
 
 ---
 
-## 🧹 Icône Tray
+## 🎥 Use with OBS
 
-- L'icône de musique apparaît en bas à droite (zone de notification Windows).
-- Clic droit → **Quitter** pour fermer proprement l'application.
-
----
-
-## 🔥 À venir
-
-- Récupérer automatiquement l'artiste pour YouTube Music
-- Support de plus de plateformes musicales
-- Options de personnalisation plus poussées (CSS, couleurs, etc.)
+1. Add a new **Browser Source** in OBS
+2. URL: `http://127.0.0.1:5000/current-song`
+3. Width: `300` — Height: `80`
+4. Optionally check: "Refresh browser when scene becomes active"
+5. Enjoy your stylish music display 🎶
 
 ---
 
-## 📄 Licence
+## 🧹 System Tray Icon
 
-Projet personnel.  
-Tu peux l'utiliser, le modifier et le partager librement !
+- A small music note icon appears in the Windows tray bar.
+- Right-click → **Quit** to close the application cleanly.
+
+---
+
+## 🔥 Upcoming Improvements
+
+- Automatically detect artist info for YouTube Music
+- Support for more music platforms
+- More customization options (CSS, theme colors, animations)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.  
+Feel free to use, modify, and share it!
 
 ---
 
 ## 🎸 Screenshots
 
-(à ajouter plus tard si besoin)
+(To be added soon)
 
 ---
