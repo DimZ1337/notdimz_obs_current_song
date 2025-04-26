@@ -1,5 +1,4 @@
 import os
-import sys
 
 def get_save_path():
     """ Retourne le chemin sûr pour écrire current_song.txt """
