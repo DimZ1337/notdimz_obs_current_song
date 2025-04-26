@@ -1,3 +1,4 @@
+import sys
 import time
 import threading
 from flask import Flask, render_template_string
@@ -6,13 +7,25 @@ import os
 # Import des modules pour récupérer les chansons
 from sources import youtube
 from sources import spotify
+from sources import config
 
 # --- Ajouts pour le tray ---
 import pystray
 from PIL import Image, ImageDraw
 
+def set_working_directory():
+    """Force le working directory au dossier du programme"""
+    if hasattr(sys, '_MEIPASS'):
+        # Mode PyInstaller (exécutable)
+        os.chdir(sys._MEIPASS)
+    else:
+        # Mode normal (Python)
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+set_working_directory()
+
 # Paramètres
-OUTPUT_FILE = "current_song.txt"
+OUTPUT_FILE = config.get_save_path()
 REFRESH_INTERVAL = 2  # secondes
 
 # Flask app
@@ -93,6 +106,15 @@ HTML_TEMPLATE = """
 </html>
 """
 
+def resource_path(relative_path):
+    """ Trouve le bon chemin que ce soit en dev ou en exe compilé """
+    if hasattr(sys, '_MEIPASS'):
+        # Quand exécuté via PyInstaller
+        return os.path.join(sys._MEIPASS, relative_path)
+    else:
+        # En mode développement normal
+        return os.path.join(os.path.abspath("."), relative_path)
+
 # Fonction pour écrire dans le fichier
 def write_to_file(text):
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
@@ -144,10 +166,11 @@ def create_image():
 def on_quit(icon, item):
     print("[INFO] Fermeture de l'application.")
     icon.stop()
-    os.remove("current_song.txt") 
+    os.remove(OUTPUT_FILE) 
     os._exit(0)  # Force la fermeture proprement
 
 def run_tray():
+    #ico_path = resource_path("assets/current_song.ico")
     icon = pystray.Icon(
         "current_song",
         Image.open("assets/current_song.ico"),  # ← On charge un vrai .ico ici
